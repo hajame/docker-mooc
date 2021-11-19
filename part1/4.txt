@@ -101,3 +101,28 @@ Searching..
 
 
 (note, I have left out some lines from the apt update and apt install output)
+
+
+
+I realized later that the same thing can also be done with these commands
+
+➜  ~ docker run -d -it ubuntu
+➜  ~ docker ps                   
+CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS        PORTS     NAMES
+e9c4e298e1bd   ubuntu    "bash"    2 seconds ago   Up 1 second             frosty_maxwell
+➜  ~ docker exec frosty_maxwell apt-get update
+(updates repo information)
+➜  ~ docker exec frosty_maxwell apt-get install -y -q curl
+(installs curl)
+➜  ~ docker exec -it frosty_maxwell sh -c 'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'
+Input website:
+helsinki.fi
+Searching..
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>301 Moved Permanently</title>
+</head><body>
+<h1>Moved Permanently</h1>
+<p>The document has moved <a href="https://www.helsinki.fi/">here</a>.</p>
+</body></html>
+
