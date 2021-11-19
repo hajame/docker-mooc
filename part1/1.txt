@@ -1,0 +1,25 @@
+➜  ~ docker container run -d nginx            
+176365c44db313847cdb67bbb4e940f115e10b5cb1686b8e286265e949ad5247
+➜  ~ docker container run -d nginx
+171a334462de5830d7d5cb08b2334a1333275f85a9db4767ab96f8ca98239d33
+➜  ~ docker container run -d nginx
+f289608a8fbba8741a57e31258ce22b20e1d1d2fe51388103f6735debf5e4b1a
+➜  ~ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS     NAMES
+f289608a8fbb   nginx     "/docker-entrypoint.…"   12 seconds ago   Up 12 seconds   80/tcp    laughing_pasteur
+171a334462de   nginx     "/docker-entrypoint.…"   14 seconds ago   Up 13 seconds   80/tcp    epic_goldberg
+176365c44db3   nginx     "/docker-entrypoint.…"   15 seconds ago   Up 15 seconds   80/tcp    pedantic_pare
+➜  ~ docker container stop epic_goldberg pedantic_pare 
+epic_goldberg
+pedantic_pare
+➜  ~ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS                      PORTS     NAMES
+f289608a8fbb   nginx     "/docker-entrypoint.…"   About a minute ago   Up About a minute           80/tcp    laughing_pasteur
+171a334462de   nginx     "/docker-entrypoint.…"   About a minute ago   Exited (0) 19 seconds ago             epic_goldberg
+176365c44db3   nginx     "/docker-entrypoint.…"   About a minute ago   Exited (0) 19 seconds ago             pedantic_pare
+deb4d41e7b7a   nginx     "/docker-entrypoint.…"   22 minutes ago       Exited (0) 21 minutes ago             flamboyant_lichterman
+➜  ~ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS              PORTS     NAMES
+f289608a8fbb   nginx     "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp    laughing_pasteur
+➜  ~ 
+

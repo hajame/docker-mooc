@@ -1,0 +1,48 @@
+➜  ~ docker ps -as
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES                   SIZE
+f289608a8fbb   nginx     "/docker-entrypoint.…"   3 minutes ago    Up 3 minutes                80/tcp    laughing_pasteur        1.09kB (virtual 141MB)
+171a334462de   nginx     "/docker-entrypoint.…"   3 minutes ago    Exited (0) 2 minutes ago              epic_goldberg           1.09kB (virtual 141MB)
+176365c44db3   nginx     "/docker-entrypoint.…"   3 minutes ago    Exited (0) 2 minutes ago              pedantic_pare           1.09kB (virtual 141MB)
+deb4d41e7b7a   nginx     "/docker-entrypoint.…"   24 minutes ago   Exited (0) 23 minutes ago             flamboyant_lichterman   1.09kB (virtual 141MB)
+➜  ~ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+nginx         latest    ea335eea17ab   2 days ago    141MB
+hello-world   latest    feb5d9fea6a5   8 weeks ago   13.3kB
+➜  ~ docker container stop laughing_pasteur 
+laughing_pasteur
+➜  ~ docker container prune
+WARNING! This will remove all stopped containers.
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+f289608a8fbba8741a57e31258ce22b20e1d1d2fe51388103f6735debf5e4b1a
+171a334462de5830d7d5cb08b2334a1333275f85a9db4767ab96f8ca98239d33
+176365c44db313847cdb67bbb4e940f115e10b5cb1686b8e286265e949ad5247
+deb4d41e7b7ade72103e5bd73a3a0135509da4f2469f2b7a64389bf9579230c5
+
+Total reclaimed space: 4.372kB
+➜  ~ docker ps -as
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES     SIZE
+➜  ~ docker container ls -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+➜  ~ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+nginx         latest    ea335eea17ab   2 days ago    141MB
+hello-world   latest    feb5d9fea6a5   8 weeks ago   13.3kB
+➜  ~ docker image rm ea33 feb5
+Untagged: nginx:latest
+Untagged: nginx@sha256:097c3a0913d7e3a5b01b6c685a60c03632fc7a2b50bc8e35bcaa3691d788226e
+Deleted: sha256:ea335eea17ab984571cd4a3bcf90a0413773b559c75ef4cda07d0ce952b00291
+Deleted: sha256:cc284e9b1cbed75793782165a07a0c2139d8ec0116d1d562c0e2e504ed586238
+Deleted: sha256:6207e091bef7f1c94a109cb455ba163d53d7c2c641de65e71d3a0f33c0ebd8ae
+Deleted: sha256:97a18ff8c6973f64d763f004cad932319a1428e0502c0ec3e671e78b2f14256b
+Deleted: sha256:319130834f01416a2e8f9a4f2b2fa082c702ac21f16e0e2a206e23d53a0a3bae
+Deleted: sha256:1bc375f72973dc110c9629a694bc7476bf878d244287c0214e6436afd6a9d1b0
+Deleted: sha256:e1bbcf243d0e7387fbfe5116a485426f90d3ddeb0b1738dca4e3502b6743b325
+Untagged: hello-world:latest
+Untagged: hello-world@sha256:cc15c5b292d8525effc0f89cb299f1804f3a725c8d05e158653a563f15e4f685
+Deleted: sha256:feb5d9fea6a5e9606aa995e879d862b825965ba48de054caab5ef356dc6b3412
+Deleted: sha256:e07ee1baac5fae6a26f30cabfe54a36d3402f96afda318fe0a96cec4ca393359
+➜  ~ docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+➜  ~ 
+
