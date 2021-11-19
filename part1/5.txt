@@ -1,0 +1,63 @@
+➜  ~ docker pull devopsdockeruh/simple-web-service:ubuntu
+ubuntu: Pulling from devopsdockeruh/simple-web-service
+5d3b2c2d21bb: Pull complete 
+3fc2062ea667: Pull complete 
+75adf526d75b: Pull complete 
+965d4bbb586a: Pull complete 
+4f4fb700ef54: Pull complete 
+Digest: sha256:d44e1dce398732e18c7c2bad9416a072f719af33498302b02929d4c112e88d2a
+Status: Downloaded newer image for devopsdockeruh/simple-web-service:ubuntu
+docker.io/devopsdockeruh/simple-web-service:ubuntu
+➜  ~ docker pull devopsdockeruh/simple-web-service:alpine
+alpine: Pulling from devopsdockeruh/simple-web-service
+ba3557a56b15: Pull complete 
+1dace236434b: Pull complete 
+4f4fb700ef54: Pull complete 
+Digest: sha256:dd4d367476f86b7d7579d3379fe446ae5dfce25480903fb0966fc2e5257e0543
+Status: Downloaded newer image for devopsdockeruh/simple-web-service:alpine
+docker.io/devopsdockeruh/simple-web-service:alpine
+➜  ~ docker images
+REPOSITORY                          TAG       IMAGE ID       CREATED        SIZE
+ubuntu                              latest    ba6acccedd29   4 weeks ago    72.8MB
+fav_distro                          bionic    5a214d77f5d7   7 weeks ago    63.1MB
+ubuntu                              18.04     5a214d77f5d7   7 weeks ago    63.1MB
+ubuntu                              bionic    5a214d77f5d7   7 weeks ago    63.1MB
+devopsdockeruh/simple-web-service   ubuntu    4e3362e907d5   8 months ago   83MB
+devopsdockeruh/simple-web-service   alpine    fd312adc88e0   8 months ago   15.7MB
+➜  ~ 
+
+
+#### sizes are 83MB (ubuntu) vs 15.7MB (alpine)
+
+
+➜  ~ docker images
+REPOSITORY                          TAG       IMAGE ID       CREATED        SIZE
+ubuntu                              latest    ba6acccedd29   4 weeks ago    72.8MB
+ubuntu                              18.04     5a214d77f5d7   7 weeks ago    63.1MB
+ubuntu                              bionic    5a214d77f5d7   7 weeks ago    63.1MB
+fav_distro                          bionic    5a214d77f5d7   7 weeks ago    63.1MB
+devopsdockeruh/simple-web-service   ubuntu    4e3362e907d5   8 months ago   83MB
+devopsdockeruh/simple-web-service   alpine    fd312adc88e0   8 months ago   15.7MB
+➜  ~ docker run -d devopsdockeruh/simple-web-service:alpine
+597dcbe6ca2e0cb63857e8a5e016cc1905b2aab5f3c8a36ff3987c5b10d8aafc
+➜  ~ docker exec -it 597dcbe6ca2e sh
+/usr/src/app # tail -f ./text.log
+2021-11-19 20:33:26 +0000 UTC
+2021-11-19 20:33:28 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2021-11-19 20:33:30 +0000 UTC
+2021-11-19 20:33:32 +0000 UTC
+2021-11-19 20:33:34 +0000 UTC
+2021-11-19 20:33:36 +0000 UTC
+2021-11-19 20:33:38 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2021-11-19 20:33:40 +0000 UTC
+^C
+/usr/src/app # exit
+➜  ~ docker kill 597dcbe6ca2e       
+597dcbe6ca2e
+➜  ~ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+➜  ~ 
+
+##### the secret message is the same
