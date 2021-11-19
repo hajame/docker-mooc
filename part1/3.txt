@@ -1,0 +1,34 @@
+➜  ~ docker run -d devopsdockeruh/simple-web-service:ubuntu
+f98b399f2072dbecad2a5a58fce58af95c25285d19d3657ca750062304e20ab8
+➜  ~ docker ps
+CONTAINER ID   IMAGE                                      COMMAND                 CREATED         STATUS         PORTS     NAMES
+f98b399f2072   devopsdockeruh/simple-web-service:ubuntu   "/usr/src/app/server"   2 seconds ago   Up 2 seconds             hungry_wozniak
+root@f98b399f2072:/usr/src/app# tail -f ./text.log
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2021-11-19 19:40:00 +0000 UTC
+2021-11-19 19:40:02 +0000 UTC
+2021-11-19 19:40:04 +0000 UTC
+2021-11-19 19:40:06 +0000 UTC
+2021-11-19 19:40:08 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2021-11-19 19:40:10 +0000 UTC
+2021-11-19 19:40:12 +0000 UTC
+2021-11-19 19:40:14 +0000 UTC
+2021-11-19 19:40:16 +0000 UTC
+2021-11-19 19:40:18 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2021-11-19 19:40:20 +0000 UTC
+2021-11-19 19:40:22 +0000 UTC
+2021-11-19 19:40:24 +0000 UTC
+2021-11-19 19:40:26 +0000 UTC
+2021-11-19 19:40:28 +0000 UTC
+^C
+root@f98b399f2072:/usr/src/app# exit
+exit
+➜  ~ docker kill hungry_wozniak 
+hungry_wozniak
+➜  ~ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+➜  ~ 
+
+
