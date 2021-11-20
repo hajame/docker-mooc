@@ -1,0 +1,39 @@
+➜  e1.7 docker images
+REPOSITORY                          TAG       IMAGE ID       CREATED          SIZE
+hello-docker                        v2        fe2cf9ded108   16 minutes ago   5.62MB
+alpine                              3.13      6b7b3256dabe   7 days ago       5.62MB
+ubuntu                              latest    ba6acccedd29   5 weeks ago      72.8MB
+devopsdockeruh/simple-web-service   alpine    fd312adc88e0   8 months ago     15.7MB
+➜  e1.7 cat Dockerfile
+FROM devopsdockeruh/simple-web-service:alpine
+
+CMD server
+
+➜  e1.7 docker build . -t web-server
+Sending build context to Docker daemon  2.048kB
+Step 1/2 : FROM devopsdockeruh/simple-web-service:alpine
+ ---> fd312adc88e0
+Step 2/2 : CMD server
+ ---> Running in 523643959c50
+Removing intermediate container 523643959c50
+ ---> 1a5f8eba450f
+Successfully built 1a5f8eba450f
+Successfully tagged web-server:latest
+➜  e1.7 docker run web-server 
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /*path                    --> server.Start.func1 (3 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+^C%                                                                                                                                                         ➜  e1.7 docker images
+REPOSITORY                          TAG       IMAGE ID       CREATED          SIZE
+web-server                          latest    1a5f8eba450f   20 seconds ago   15.7MB
+hello-docker                        v2        fe2cf9ded108   17 minutes ago   5.62MB
+alpine                              3.13      6b7b3256dabe   7 days ago       5.62MB
+ubuntu                              latest    ba6acccedd29   5 weeks ago      72.8MB
+devopsdockeruh/simple-web-service   alpine    fd312adc88e0   8 months ago     15.7MB
+➜  e1.7 
+

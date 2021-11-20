@@ -1,0 +1,73 @@
+➜  e1.8 cat Dockerfile          
+FROM ubuntu:18.04
+
+WORKDIR /usr/src/app
+
+COPY curl-script.sh .
+
+RUN apt-get update; apt-get install -y curl
+
+CMD ./curl-script.sh
+
+➜  e1.8 docker build . -t curler
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM ubuntu:18.04
+18.04: Pulling from library/ubuntu
+284055322776: Pull complete 
+Digest: sha256:0fedbd5bd9fb72089c7bbca476949e10593cebed9b1fb9edf5b79dbbacddd7d6
+Status: Downloaded newer image for ubuntu:18.04
+ ---> 5a214d77f5d7
+Step 2/5 : WORKDIR /usr/src/app
+ ---> Running in f45aac6bd3b9
+Removing intermediate container f45aac6bd3b9
+ ---> 835b45d80b80
+Step 3/5 : COPY curl-script.sh .
+ ---> fad2683a0ca9
+Step 4/5 : RUN apt-get update; apt-get install -y curl
+ ---> Running in 2d43786a6d3f
+Get:1 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
+Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+
+...
+
+Processing triggers for ca-certificates (20210119~18.04.2) ...
+Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+Removing intermediate container 2d43786a6d3f
+ ---> dac6967ac2e3
+Step 5/5 : CMD ./curl-script.sh
+ ---> Running in 6b2ebc982f58
+Removing intermediate container 6b2ebc982f58
+ ---> 915380fa3c20
+Successfully built 915380fa3c20
+Successfully tagged curler:latest
+
+
+➜  e1.8 docker images
+REPOSITORY                          TAG       IMAGE ID       CREATED          SIZE
+curler                              latest    915380fa3c20   2 minutes ago    116MB
+web-server                          latest    1a5f8eba450f   18 minutes ago   15.7MB
+hello-docker                        v2        fe2cf9ded108   35 minutes ago   5.62MB
+alpine                              3.13      6b7b3256dabe   7 days ago       5.62MB
+ubuntu                              latest    ba6acccedd29   5 weeks ago      72.8MB
+ubuntu                              18.04     5a214d77f5d7   7 weeks ago      63.1MB
+devopsdockeruh/simple-web-service   alpine    fd312adc88e0   8 months ago     15.7MB
+
+
+➜  e1.8 docker run -it curler
+Input website:
+helsinki.fi
+Searching..
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>301 Moved Permanently</title>
+</head><body>
+<h1>Moved Permanently</h1>
+<p>The document has moved <a href="https://www.helsinki.fi/">here</a>.</p>
+</body></html>
+➜  e1.8 
+
