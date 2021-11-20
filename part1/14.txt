@@ -1,0 +1,56 @@
+➜  example-frontend git:(main) cat Dockerfile     
+FROM ubuntu:18.04
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+EXPOSE 5000
+
+ENV REACT_APP_BACKEND_URL=http://localhost:8080
+
+
+RUN apt-get update && apt-get install -y curl 
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
+
+RUN apt-get update && apt-get install -y nodejs
+RUN npm install
+RUN npm run build
+RUN npm install -g serve
+CMD serve -s -l 5000 build
+
+
+➜  example-frontend git:(main) ../example-backend 
+➜  example-backend git:(main) cat Dockerfile 
+FROM golang:1.16-alpine
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+EXPOSE 8080
+
+ENV REQUEST_ORIGIN=http://localhost:5000
+
+RUN go build
+CMD ./server
+
+
+➜  example-backend git:(main) docker run -d -p "5000:5000" node-frontend
+d1b6c903a68efb4886deab5cb54436908e27a499bbb999a2316d12b1241952e0
+
+➜  example-backend git:(main) docker run -p "8080:8080" go-backend 
+[Ex 2.4+] REDIS_HOST env was not passed so redis connection is not initialized
+[Ex 2.6+] POSTGRES_HOST env was not passed so postgres connection is not initialized
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /ping                     --> server/router.pingpong (4 handlers)
+[GIN-debug] GET    /messages                 --> server/controller.GetMessages (4 handlers)
+[GIN-debug] POST   /messages                 --> server/controller.CreateMessage (4 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] 2021/11/20 - 20:49:01 | 200 |      46.418µs |      172.17.0.1 | GET      "/ping"
+^C%                                                                                        

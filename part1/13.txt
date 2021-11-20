@@ -1,0 +1,36 @@
+➜  example-backend git:(main) cat Dockerfile
+FROM golang:1.16-alpine
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+EXPOSE 8080
+
+RUN go build
+CMD ./server
+
+➜  example-backend git:(main) docker build . -t go-backend
+
+(...)
+
+
+➜  example-backend git:(main) docker run -p "8080:8080" go-backend 
+[Ex 2.4+] REDIS_HOST env was not passed so redis connection is not initialized
+[Ex 2.6+] POSTGRES_HOST env was not passed so postgres connection is not initialized
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /ping                     --> server/router.pingpong (4 handlers)
+[GIN-debug] GET    /messages                 --> server/controller.GetMessages (4 handlers)
+[GIN-debug] POST   /messages                 --> server/controller.CreateMessage (4 handlers)
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] 2021/11/20 - 20:18:27 | 404 |      98.147µs |      172.17.0.1 | GET      "/"
+[GIN] 2021/11/20 - 20:18:39 | 200 |      18.524µs |      172.17.0.1 | GET      "/ping"
+[GIN] 2021/11/20 - 20:18:43 | 200 |       7.713µs |      172.17.0.1 | GET      "/ping"
+[GIN] 2021/11/20 - 20:18:45 | 200 |       8.433µs |      172.17.0.1 | GET      "/ping"
+[GIN] 2021/11/20 - 20:18:46 | 200 |      22.139µs |      172.17.0.1 | GET      "/ping"
+^C%                                                                           
