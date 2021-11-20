@@ -1,0 +1,10 @@
+A simple Hello World application for the shell. 
+
+It just prints a greeting to the console and exits.
+
+https://hub.docker.com/repository/docker/hajame/hello-harri
+
+Can be run with:
+
+docker run hajame/hello-harri
+
