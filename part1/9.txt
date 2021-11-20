@@ -1,0 +1,34 @@
+➜  yt ls
+➜  yt touch text.log
+➜  yt ls
+text.log
+➜  yt docker run -v "$(pwd)/text.log:/usr/src/app/text.log" devopsdockeruh/simple-web-service
+Starting log output
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+^C%                                                                                                                                    
+➜  yt ls
+text.log
+➜  yt cat text.log 
+2021-11-20 18:35:48 +0000 UTC
+2021-11-20 18:35:50 +0000 UTC
+2021-11-20 18:35:52 +0000 UTC
+2021-11-20 18:35:54 +0000 UTC
+2021-11-20 18:35:56 +0000 UTC
+➜  yt docker container ls -a
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                          PORTS     NAMES
+b0c56f65e19b   devopsdockeruh/simple-web-service   "/usr/src/app/server"    32 seconds ago   Exited (2) 22 seconds ago                 trusting_villani
+b89c785648c0   devopsdockeruh/simple-web-service   "/usr/src/app/server"    2 minutes ago    Exited (2) About a minute ago             fervent_chaplygin
+d47c4bcc276e   devopsdockeruh/simple-web-service   "/usr/src/app/server"    3 minutes ago    Exited (2) 3 minutes ago                  dreamy_ritchie
+c9cf621b38c3   youtube-dl                          "/usr/local/bin/yout…"   7 minutes ago    Exited (0) 7 minutes ago                  funny_wiles
+b6ac0601dcb3   youtube-dl                          "/usr/local/bin/yout…"   13 minutes ago   Exited (0) 13 minutes ago                 condescending_lichterman
+806dfee86304   curler                              "/bin/sh -c ./curl-s…"   7 hours ago      Exited (0) 7 hours ago                    hardcore_dijkstra
+f28002c46654   web-server                          "/usr/src/app/server…"   7 hours ago      Exited (2) 7 hours ago                    angry_banzai
+➜  yt 
+
+
+
+
