@@ -1,0 +1,35 @@
+➜  e2.1 sudo docker-compose up
+Recreating e21_simple-web-service_1 ... done
+Attaching to e21_simple-web-service_1
+simple-web-service_1  | Starting log output
+simple-web-service_1  | Wrote text to /usr/src/app/text.log
+simple-web-service_1  | Wrote text to /usr/src/app/text.log
+simple-web-service_1  | Wrote text to /usr/src/app/text.log
+simple-web-service_1  | Wrote text to /usr/src/app/text.log
+simple-web-service_1  | Wrote text to /usr/src/app/text.log
+simple-web-service_1  | Wrote text to /usr/src/app/text.log
+simple-web-service_1  | Wrote text to /usr/src/app/text.log
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping e21_simple-web-service_1   ... done
+
+➜  e2.1 cat docker-compose.yml
+version: '3.5' 
+
+services: 
+
+    simple-web-service: 
+      image: devopsdockeruh/simple-web-service
+      volumes: 
+        - ./text.log:/usr/src/app/text.log%                                                                   
+
+➜  e2.1 cat text.log 
+2021-11-27 14:21:38 +0000 UTC
+2021-11-27 14:21:40 +0000 UTC
+2021-11-27 14:21:42 +0000 UTC
+2021-11-27 14:21:44 +0000 UTC
+2021-11-27 14:21:46 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2021-11-27 14:21:48 +0000 UTC
+➜  e2.1 
+
+
