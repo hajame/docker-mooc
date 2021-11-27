@@ -1,0 +1,28 @@
+➜  e2.2 cat docker-compose.yml 
+version: '3.5' 
+
+services: 
+
+    simple-web-service: 
+      image: devopsdockeruh/simple-web-service
+      volumes: 
+        - ./text.log:/usr/src/app/text.log
+      ports: 
+        - 8080:8080
+      command: server%                                                                                        
+
+➜  e3.2 sudo docker-compose up
+Recreating e22_simple-web-service_1 ... done
+Attaching to e22_simple-web-service_1
+simple-web-service_1  | [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+simple-web-service_1  | 
+simple-web-service_1  | [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+simple-web-service_1  |  - using env:	export GIN_MODE=release
+simple-web-service_1  |  - using code:	gin.SetMode(gin.ReleaseMode)
+simple-web-service_1  | 
+simple-web-service_1  | [GIN-debug] GET    /*path                    --> server.Start.func1 (3 handlers)
+simple-web-service_1  | [GIN-debug] Listening and serving HTTP on :8080
+simple-web-service_1  | [GIN] 2021/11/27 - 14:44:27 | 200 |      63.136µs |    192.168.96.1 | GET      "/ping"
+simple-web-service_1  | [GIN] 2021/11/27 - 14:44:35 | 200 |      31.426µs |    192.168.96.1 | GET      "/"
+simple-web-service_1  | [GIN] 2021/11/27 - 14:44:52 | 200 |      40.425µs |    192.168.96.1 | GET      "/oispa_kaljaa"
+
