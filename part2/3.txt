@@ -1,0 +1,81 @@
+➜  material-applications git:(main) ✗ sudo docker-compose up
+Recreating material-applications_go-backend_1 ... 
+Recreating material-applications_go-backend_1 ... done
+Attaching to material-applications_node-frontend_1, material-applications_go-backend_1
+go-backend_1     | [Ex 2.4+] REDIS_HOST env was not passed so redis connection is not initialized
+go-backend_1     | [Ex 2.6+] POSTGRES_HOST env was not passed so postgres connection is not initialized
+go-backend_1     | [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+go-backend_1     | 
+go-backend_1     | [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+go-backend_1     |  - using env:	export GIN_MODE=release
+go-backend_1     |  - using code:	gin.SetMode(gin.ReleaseMode)
+go-backend_1     | 
+go-backend_1     | [GIN-debug] GET    /ping                     --> server/router.pingpong (4 handlers)
+go-backend_1     | [GIN-debug] GET    /messages                 --> server/controller.GetMessages (4 handlers)
+go-backend_1     | [GIN-debug] POST   /messages                 --> server/controller.CreateMessage (4 handlers)
+go-backend_1     | [GIN-debug] Listening and serving HTTP on :8080
+node-frontend_1  | INFO: Accepting connections at http://localhost:5000
+go-backend_1     | [GIN] 2021/11/27 - 15:07:03 | 200 |      63.237µs |   192.168.112.1 | GET      "/ping"
+go-backend_1     | [GIN] 2021/11/27 - 15:07:38 | 200 |      23.363µs |   192.168.112.1 | GET      "/ping"
+go-backend_1     | [GIN] 2021/11/27 - 15:07:52 | 501 |      28.731µs |   192.168.112.1 | GET      "/ping?redis=true"
+go-backend_1     | [GIN] 2021/11/27 - 15:08:04 | 200 |      13.259µs |   192.168.112.1 | GET      "/ping"
+material-applications_go-backend_1 exited with code 2
+material-applications_node-frontend_1 exited with code 137
+➜  material-applications git:(main) ✗ cat docker-compose.yml 
+version: '3.5' 
+
+services: 
+    node-frontend:  
+      build: ./example-frontend
+      ports:
+        - 5000:5000
+      environment:
+        - REACT_APP_BACKEND_URL=http://localhost:8080
+
+    go-backend:
+      build: ./example-backend
+      ports:
+        - 8080:8080
+      volumes: 
+        - ./example-backend/.text.log:/usr/src/app/text.log
+      environment:
+        - REQUEST_ORIGIN=http://localhost:5000
+➜  material-applications git:(main) ✗ ls
+docker-compose.yml  example-application-cypress  example-backend  example-frontend  node-dev-env  rails-example-project  README.md  scaling-exercise  simple-web-service  spring-example-project
+➜  material-applications git:(main) ✗ 
+
+➜  material-applications git:(main) ✗ cat example-backend/Dockerfile 
+FROM golang:1.16-alpine
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+EXPOSE 8080
+
+ENV REQUEST_ORIGIN=http://localhost:5000
+
+RUN go build
+CMD ./server
+
+➜  material-applications git:(main) ✗ cat example-frontend/Dockerfile 
+FROM ubuntu:18.04
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+EXPOSE 5000
+
+ENV REACT_APP_BACKEND_URL=http://localhost:8080
+
+
+RUN apt-get update && apt-get install -y curl 
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
+
+RUN apt-get update && apt-get install -y nodejs
+RUN npm install
+RUN npm run build
+RUN npm install -g serve
+CMD serve -s -l 5000 build
+
