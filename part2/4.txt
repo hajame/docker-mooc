@@ -1,0 +1,60 @@
+➜  material-applications git:(main) ✗ cat docker-compose.yml 
+version: '3.5' 
+
+services: 
+    redis:
+      image: redis
+      restart: unless-stopped
+
+    node-frontend:  
+      build: ./example-frontend
+      ports:
+        - 5000:5000
+      environment:
+        - REACT_APP_BACKEND_URL=http://localhost:8080
+
+    go-backend:
+      build: ./example-backend
+      ports:
+        - 8080:8080
+      volumes: 
+        - ./example-backend/text.log:/usr/src/app/text.log
+      environment:
+        - REQUEST_ORIGIN=http://localhost:5000
+        - REDIS_HOST=redis
+
+➜  material-applications git:(main) ✗ sudo docker-compose up        
+Starting material-applications_redis_1         ... done
+Starting material-applications_node-frontend_1 ... done
+Starting material-applications_go-backend_1    ... done
+Attaching to material-applications_redis_1, material-applications_node-frontend_1, material-applications_go-backend_1
+go-backend_1     | [Ex 2.4+] Initializing redis client
+go-backend_1     | [Ex 2.4+] Connection to redis initialized, ready to ping pong.
+go-backend_1     | [Ex 2.6+] POSTGRES_HOST env was not passed so postgres connection is not initialized
+go-backend_1     | [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+go-backend_1     | 
+go-backend_1     | [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+go-backend_1     |  - using env:	export GIN_MODE=release
+go-backend_1     |  - using code:	gin.SetMode(gin.ReleaseMode)
+go-backend_1     | 
+go-backend_1     | [GIN-debug] GET    /ping                     --> server/router.pingpong (4 handlers)
+go-backend_1     | [GIN-debug] GET    /messages                 --> server/controller.GetMessages (4 handlers)
+go-backend_1     | [GIN-debug] POST   /messages                 --> server/controller.CreateMessage (4 handlers)
+go-backend_1     | [GIN-debug] Listening and serving HTTP on :8080
+redis_1          | 1:C 27 Nov 2021 21:12:34.944 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis_1          | 1:C 27 Nov 2021 21:12:34.944 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=1, just started
+redis_1          | 1:C 27 Nov 2021 21:12:34.944 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+redis_1          | 1:M 27 Nov 2021 21:12:34.945 * monotonic clock: POSIX clock_gettime
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 * Running mode=standalone, port=6379.
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 # Server initialized
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 * Loading RDB produced by version 6.2.6
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 * RDB age 23 seconds
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 * RDB memory usage when created 0.77 Mb
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 # Done loading RDB, keys loaded: 1, keys expired: 0.
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 * DB loaded from disk: 0.000 seconds
+redis_1          | 1:M 27 Nov 2021 21:12:34.946 * Ready to accept connections
+node-frontend_1  | INFO: Accepting connections at http://localhost:5000
+go-backend_1     | ping pong
+go-backend_1     | [GIN] 2021/11/27 - 21:12:40 | 200 |     199.041µs |   192.168.128.1 | GET      "/ping?redis=true"
+
