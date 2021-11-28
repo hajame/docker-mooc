@@ -1,0 +1,29 @@
+➜  scaling-exercise git:(main) ✗ sudo docker-compose up -d --scale compute=10 
+Starting load-balancer               ... done
+Starting calculator                  ... done
+Starting scaling-exercise_compute_1  ... done
+Starting scaling-exercise_compute_2  ... done
+Starting scaling-exercise_compute_3  ... done
+Starting scaling-exercise_compute_4  ... done
+Starting scaling-exercise_compute_5  ... done
+Starting scaling-exercise_compute_6  ... done
+Starting scaling-exercise_compute_7  ... done
+Starting scaling-exercise_compute_8  ... done
+Starting scaling-exercise_compute_9  ... done
+Starting scaling-exercise_compute_10 ... done
+
+➜  scaling-exercise git:(main) ✗ docker ps
+CONTAINER ID   IMAGE                                        COMMAND                  CREATED              STATUS         PORTS                                       NAMES
+7d8b23ec0e0d   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   About a minute ago   Up 9 seconds   3000/tcp                                    scaling-exercise_compute_6
+3fce5001ad35   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   About a minute ago   Up 9 seconds   3000/tcp                                    scaling-exercise_compute_8
+c2a2da1544a7   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   About a minute ago   Up 9 seconds   3000/tcp                                    scaling-exercise_compute_7
+a8a2f9e6918f   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   About a minute ago   Up 9 seconds   3000/tcp                                    scaling-exercise_compute_10
+40db216f385f   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   About a minute ago   Up 8 seconds   3000/tcp                                    scaling-exercise_compute_5
+a337cc04af98   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   About a minute ago   Up 8 seconds   3000/tcp                                    scaling-exercise_compute_9
+d078869bb9ad   load-balancer                                "/app/docker-entrypo…"   4 minutes ago        Up 9 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp           load-balancer
+cae9a1504996   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   4 minutes ago        Up 9 seconds   3000/tcp                                    scaling-exercise_compute_2
+68e2b7fc179a   devopsdockeruh/scaling-exercise-calculator   "docker-entrypoint.s…"   4 minutes ago        Up 9 seconds   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   calculator
+e6583edd6f33   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   4 minutes ago        Up 8 seconds   3000/tcp                                    scaling-exercise_compute_1
+76cc97e34f3c   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   4 minutes ago        Up 8 seconds   3000/tcp                                    scaling-exercise_compute_3
+c6acdbd51071   devopsdockeruh/scaling-exercise-compute      "docker-entrypoint.s…"   4 minutes ago        Up 9 seconds   3000/tcp                                    scaling-exercise_compute_4
+
