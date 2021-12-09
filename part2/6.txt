@@ -1,0 +1,56 @@
+➜  material-applications git:(main) ✗ cat docker-compose.yml
+version: '3.5' 
+
+services: 
+    db:
+      image: postgres
+      restart: unless-stopped
+      environment:
+        POSTGRES_PASSWORD: example
+    
+    redis:
+      image: redis
+      restart: unless-stopped
+
+    node-frontend:  
+      build: ./example-frontend
+      ports:
+        - 5000:5000
+      environment:
+        - REACT_APP_BACKEND_URL=http://localhost:8080
+
+    go-backend:
+      build: ./example-backend
+      ports:
+        - 8080:8080
+      volumes: 
+        - ./example-backend/text.log:/usr/src/app/text.log
+      environment:
+        - REQUEST_ORIGIN=http://localhost:5000
+        - REDIS_HOST=redis
+        - POSTGRES_HOST=db
+        - POSTGRES_PASSWORD=example
+      depends_on:
+        - db
+
+➜  material-applications git:(main) ✗ sudo docker-compose up
+Pulling db (postgres:)...
+latest: Pulling from library/postgres
+e5ae68f74026: Pull complete
+7b8fcc7e1ad0: Pull complete
+7527d03e2f77: Pull complete
+80e55689f4d0: Pull complete
+....
+
+
+go-backend_1     | [GIN-debug] Listening and serving HTTP on :8080
+go-backend_1     | &{1 pong}
+go-backend_1     | [GIN] 2021/12/09 - 19:43:30 | 200 |     816.664µs |   192.168.128.1 | GET      "/ping?postgres=true"
+go-backend_1     | [GIN] 2021/12/09 - 19:43:40 | 204 |      13.668µs |   192.168.128.1 | OPTIONS  "/messages"
+go-backend_1     | [GIN] 2021/12/09 - 19:43:40 | 200 |   10.457558ms |   192.168.128.1 | POST     "/messages"
+go-backend_1     | [GIN] 2021/12/09 - 19:43:40 | 200 |     710.739µs |   192.168.128.1 | GET      "/messages"
+go-backend_1     | [GIN] 2021/12/09 - 19:43:43 | 200 |     918.264µs |   192.168.128.1 | GET      "/messages"
+go-backend_1     | [GIN] 2021/12/09 - 19:43:50 | 204 |      18.161µs |   192.168.128.1 | OPTIONS  "/messages"
+go-backend_1     | [GIN] 2021/12/09 - 19:43:50 | 200 |    7.861283ms |   192.168.128.1 | POST     "/messages"
+go-backend_1     | [GIN] 2021/12/09 - 19:43:50 | 200 |     752.781µs |   192.168.128.1 | GET      "/messages"
+
