@@ -1,0 +1,39 @@
+version: '3.5' 
+
+services:
+
+    db:
+      image: postgres
+      restart: unless-stopped
+      volumes:
+        - ./database:/var/lib/postgresql/data
+      environment:
+        POSTGRES_PASSWORD: example
+    
+    redis:
+      image: redis
+      restart: unless-stopped
+      volumes:
+        - ./redis_cache:/data
+
+    node-frontend:  
+      build: ./example-frontend
+      ports:
+        - 5000:5000
+      environment:
+        - REACT_APP_BACKEND_URL=http://localhost:8080
+
+    go-backend:
+      build: ./example-backend
+      ports:
+        - 8080:8080
+      volumes: 
+        - ./example-backend/text.log:/usr/src/app/text.log
+      environment:
+        - REQUEST_ORIGIN=http://localhost:5000
+        - REDIS_HOST=redis
+        - POSTGRES_HOST=db
+        - POSTGRES_PASSWORD=example
+      depends_on:
+        - db
+
