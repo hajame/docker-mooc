@@ -1,0 +1,67 @@
+docker-compose.yml
+------------------
+
+version: '3.5' 
+
+volumes:
+  model:
+  imgs:
+  data:
+
+services:
+
+    training:
+      build: ./ml-kurkkumopo-training
+      volumes: 
+        - model:/src/model
+        - imgs:/src/imgs
+        - data:/src/data
+    
+    backend:
+      build: ./ml-kurkkumopo-backend
+      ports:
+        - 5000:5000
+      volumes: 
+        - model:/src/model
+      depends_on:
+        - training
+    
+    frontend:
+      build: ./ml-kurkkumopo-frontend
+      ports:
+        - 3000:3000
+      volumes: 
+        - model:/src/model
+
+
+
+
+I was able to run the application and recognize a cucumber!
+
+output
+------
+
+$ sudo docker-compose up
+
+...
+
+Starting ml-kurkkumopo_training_1 ... done
+Creating ml-kurkkumopo_frontend_1 ... done
+Creating ml-kurkkumopo_backend_1  ... done
+Attaching to ml-kurkkumopo_training_1, ml-kurkkumopo_frontend_1, ml-kurkkumopo_backend_1
+frontend_1  | INFO: Accepting connections at http://localhost:3000
+
+...
+
+backend_1   |  * Running on http://172.18.0.4:5000/ (Press CTRL+C to quit)
+backend_1   |  * Restarting with stat
+training_1  | Model already exists at './model/kurkkumopotin.sav'
+ml-kurkkumopo_training_1 exited with code 0
+backend_1   | 2021-12-10 08:02:11.227049: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+backend_1   | Using TensorFlow backend.
+backend_1   |  * Debugger is active!
+backend_1   |  * Debugger PIN: 765-685-294
+backend_1   | 172.18.0.1 - - [10/Dec/2021 08:04:31] "POST /kurkkuvaimopo HTTP/1.1" 200 -
+backend_1   | 172.18.0.1 - - [10/Dec/2021 08:04:41] "POST /kurkkuvaimopo HTTP/1.1" 200 -
+backend_1   | 172.18.0.1 - - [10/Dec/2021 08:04:45] "POST /kurkkuvaimopo HTTP/1.1" 200 -
+    
