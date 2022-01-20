@@ -1,0 +1,6 @@
+repo:
+https://github.com/hajame/github-actions-deploy-container
+
+it's a hello world app, deployed currently (as of 20.01.2022) in heroku at:
+https://node-containerized-hello-world.herokuapp.com/
+
