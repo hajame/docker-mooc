@@ -1,0 +1,44 @@
+###################
+Before optimization
+####################
+
+frontend 344MB
+--------------
+FROM node:14-alpine
+
+WORKDIR /usr/src/app
+COPY . .
+
+RUN adduser -D appuser && \
+    npm install && \
+    npm run build && \
+    npm install -g serve
+
+USER appuser
+
+CMD serve -s -l 5000 build
+
+
+
+###################
+After optimization
+####################
+
+Tested that everything still works (all buttons, ping/pong)
+
+frontend 126MB (wow! incredibly small! :o)
+--------------
+
+FROM node:14-alpine as builder
+WORKDIR /usr/src/app
+COPY . .
+RUN npm install && \
+    npm run build
+
+FROM node:14-alpine
+COPY --from=builder /usr/src/app/build /usr/src/app/build
+WORKDIR /usr/src/app
+RUN adduser -D appuser && \
+    npm install -g serve
+USER appuser
+CMD serve -s -l 5000 build
