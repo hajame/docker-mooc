@@ -1,0 +1,102 @@
+
+When docker-compose up is run, 
+- localhost/api/ping returns "pong"
+- http://localhost/ shows frontend and all buttons are working
+
+
+
+frontend Dockerfile
+--------------------
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get install -y curl 
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
+RUN apt-get update && apt-get install -y nodejs
+
+WORKDIR /usr/src/app
+COPY . .
+RUN npm install
+RUN npm run build
+RUN npm install -g serve
+
+RUN useradd -m appuser
+USER appuser
+
+CMD serve -s -l 5000 build
+
+
+
+backend Dockerfile
+-------------------
+FROM golang:1.16-alpine
+
+WORKDIR /usr/src/app
+COPY . .
+
+RUN go build
+
+RUN adduser -D appuser
+USER appuser
+
+CMD ./server
+
+
+
+
+docker-compose.yml NO CHANGES TO THIS OR OTHER FILEs
+--------------------------------------------
+
+version: '3.5' 
+
+services:
+
+    nginx:
+      image: nginx
+      restart: unless-stopped
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+      ports:
+        - 80:80
+      environment:
+        - NGINX_HOST=http://localhost
+        - NGINX_PORT=80
+      depends_on:
+        - node-frontend
+        - go-backend
+
+    db:
+      image: postgres
+      restart: unless-stopped
+      volumes:
+        - ./database:/var/lib/postgresql/data
+      environment:
+        POSTGRES_PASSWORD: example
+    
+    redis:
+      image: redis
+      restart: unless-stopped
+      volumes:
+        - ./redis_cache:/data
+
+    node-frontend:  
+      build: ./example-frontend
+      ports:
+        - 5000:5000
+      environment:
+        - REACT_APP_BACKEND_URL=http://localhost/api
+
+    go-backend:
+      build: ./example-backend
+      ports:
+        - 8080:8080
+      volumes: 
+        - ./example-backend/text.log:/usr/src/app/text.log
+      environment:
+        - REQUEST_ORIGIN=http://localhost
+        - REDIS_HOST=redis
+        - POSTGRES_HOST=db
+        - POSTGRES_PASSWORD=example
+      depends_on:
+        - db
+
+
