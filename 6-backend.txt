@@ -1,0 +1,58 @@
+###################
+Before optimization
+###################
+
+backend 447MB 
+---------------
+FROM golang:1.16-alpine
+
+WORKDIR /usr/src/app
+COPY . .
+
+RUN go build && adduser -D appuser
+
+USER appuser
+
+CMD ./server
+
+
+#####################
+After optimization #1
+#####################
+
+backend 320MB
+--------------
+
+FROM golang:1.16-alpine as builder
+WORKDIR /usr/src/app
+COPY . .
+RUN go build
+
+FROM golang:1.16-alpine
+COPY --from=builder /usr/src/app/server /usr/src/app/server
+WORKDIR /usr/src/app
+RUN adduser -D appuser
+USER appuser
+CMD ./server
+
+
+#####################
+After optimization #2
+#####################
+
+Tested that everything still works (all buttons, ping/pong)
+
+backend 18MB (!!!! incredible)
+--------------
+
+FROM golang:1.16-alpine as builder
+WORKDIR /usr/src/app
+COPY . .
+RUN CGO_ENABLED=0 go build && adduser -D appuser
+
+FROM scratch
+COPY --from=builder /usr/src/app/server /usr/src/app/server
+COPY --from=builder /etc/passwd /etc/passwd
+WORKDIR /usr/src/app
+USER appuser
+ENTRYPOINT [ "./server" ]
